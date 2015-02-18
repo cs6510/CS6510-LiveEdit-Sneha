@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <title> Sender </title>
+
+  <script src="/js/live-editor-client.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+
+    <h1> this is Live Editor client</h1>
+    <br><br>
+    <button id="connect"> Open Live Editor </button>
+    <br><br>
+
+    <div id="receiver_div"> </div>
+
+      <script type="text/javascript">
+
+        $(function() {
+          $("#doit").click(function() {
+            liveEditorClient.sendMessage($("#doit_text").val())
+          }),
+          $("#connect").click(function() {
+            liveEditorClient.initateLiveEditor();
+            liveEditorClient.addListener(receiveMessage)
+          })
+          $("#storeit").click(function() {
+            var request = $.ajax({
+                url: "http://localhost:3002/web-app-store/user/1/web-app/1",
+                type: "POST",
+                data: $("#storeit_text").val(),
+                contentType: "text/plain"
+            });
+
+            request.done(function( msg ) {
+              console.log("stored data successfully")
+            });
+
+            request.fail(function( jqXHR, textStatus ) {
+              alert( "Request failed: " + textStatus );
+            });
+          })
+        });
+
+        function receiveMessage(event){
+          $( "#receiver_div" ).append( "<br>"+event.data);
+        }
+
+       </script>
+
+    <br><br>
+    <input id="doit_text" type="text"/>
+    <button id="doit"> Send </button>
+    <br><br>
+    <input id="storeit_text" type="text"/>
+    <button id="storeit"> Store </button>
+
+  </body>
+
+  </html>

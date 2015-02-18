@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<title> Server 1 </title>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+<h1> this is server 1</h1>
+<br><br>
+
+<div id="container_server2"></div>
+
+<script type="text/javascript">
+
+$(function() {
+
+  $("#doit").click((function() {
+
+    var jqxhr = $.ajax({ url: "http://kaboom:3002/static2/server2.html"} )
+    .done(function(msg) {
+      alert( "success" );
+      $( "#container_server2" ).html(msg);
+    })
+    .fail(function() {
+      alert( "error" );
+      $( "#container_server2" ).html("error !!!!");
+    });
+
+  }))});
+
+</script>
+
+<button id="doit"> Press me !!!</button>
+
+</body>
+
+</html>

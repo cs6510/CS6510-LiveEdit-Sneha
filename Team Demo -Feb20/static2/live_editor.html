@@ -1,0 +1,89 @@
+<html>
+
+<head>
+  <title> Live Editor </title>
+
+  <script src="/js/live-editor.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+
+  <h1> this is Live Editor</h1>
+  <br><br>
+
+  <div id="sender_div"> </div>
+
+  <script type="text/javascript">
+
+    liveEditor.addClientListener(receiveMessage);
+    liveEditor.addSender(sendMessage);
+
+
+    function receiveMessage(event){
+      $( "#sender_div" ).append( "<br>"+event.data);
+    }
+
+    function sendMessage(event){
+      event.source.postMessage("received "+event.data,event.origin);
+    }
+
+    $(function() {
+
+        $("#fetch").click(function(){
+            var request = $.ajax({
+                url: "http://localhost:3002/web-app-store/user/1/web-app/1",
+                type: "GET"
+            });
+
+            request.done(function(msg) {
+              console.log("stored data fetched successfully :" + msg);
+              $("#fetch_data_div").html(msg);
+            });
+
+            request.fail(function( jqXHR, textStatus ) {
+              alert( "Request failed: " + textStatus );
+            });
+        });
+
+    });
+
+  </script>
+
+  <hr>
+  <br><br>
+  <div id="fetch_data_div"> </div>
+  <button id="fetch">fetch</button>
+
+  <h1>INCREMENTAL CHANGES DEMO:</h1>
+        <b>TIME :</b><p id="time"> </p>
+        <button id="button1" type="button">Color Change!</button>
+        <button id="button2" type="button">Bold Button!</button>
+        <button id="button3" type="button">Italic Button!</button>
+        <button id="button4" type="button">Text Change Button!</button>
+        <button id="button5" type="button">Font Size Change Button!</button>
+    <br />
+        <br />
+        <b>Check Box</b>
+        <br />
+        <input id="checkbox1" type="checkbox" name="vehicle" value="Bike"> <label for="checkbox1">Bike.........................................................</label>
+        <br />
+        <input id="checkbox2" type="checkbox" name="vehicle" value="Car" > <label for="checkbox2">Car</label>
+        <br />
+        <br />
+        <b>Labels</b> <br /> <br />
+        <label id="label1">Label 1</label> <br /> <br />
+        <label id="label2">Label 2</label> <br />
+        <br />
+        <b> TEXT Box </b> <br/><br/>
+        <input id="textbox1" type="text" >
+        <input id="textbox2" type="text" > <br />
+        <b> Password </b> <br /><br />
+        <input id="password1" type="password">
+        <input id="password2" type="password"> <br />
+        <br />
+        <b>Image :</b> <br />
+        <img id="image1" src="https://statproject.files.wordpress.com/2011/05/online.jpg" alt="Smiley face" >
+</body>
+
+</html>
